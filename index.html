@@ -767,15 +767,12 @@
     </style>
 
     <script>
-      // Ждём полной загрузки страницы (включая все изображения, стили, скрипты)
       window.addEventListener("load", () => {
         const preloader = document.getElementById("preloader");
 
-        // Небольшая задержка для красоты
         setTimeout(() => {
           preloader.classList.add("hide");
 
-          // Удаляем элемент после завершения анимации
           setTimeout(() => {
             preloader.remove();
           }, 900);
