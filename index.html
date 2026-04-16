@@ -708,7 +708,7 @@
         }));
     </script>
     <script src="tabs.js"></script>
-    <!-- Fullscreen Preloader -->
+    <!-- Preloader -->
     <div id="preloader" class="preloader">
       <div class="loader-content">
         <div class="spinner"></div>
@@ -717,18 +717,16 @@
     </div>
 
     <style>
+      /* Прелоадер */
       .preloader {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
+        inset: 0;
         background: #1f1f1f;
         display: flex;
         align-items: center;
         justify-content: center;
         z-index: 9999;
-        transition: all 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+        transition: opacity 0.6s ease;
       }
 
       .loader-content {
@@ -742,15 +740,15 @@
         border: 6px solid #2f2f2f;
         border-top: 6px solid #ccffaa;
         border-radius: 50%;
-        animation: spin 0.9s linear infinite;
+        animation: spin 0.95s linear infinite;
       }
 
       .loading-text {
         font-family: system-ui, sans-serif;
         font-size: 18px;
-        color: #64748b;
+        color: #e1e1e1;
         margin: 0;
-        letter-spacing: 1px;
+        letter-spacing: 0.5px;
       }
 
       @keyframes spin {
@@ -759,24 +757,37 @@
         }
       }
 
-      /* Анимация исчезновения */
-      .preloader.hide {
-        transform: translateY(100vh);
+      /* Основная страница (будет приезжать справа) */
+      .main-content {
         opacity: 0;
+        transform: translateX(120px); /* начинаем справа */
+        transition: all 0.9s cubic-bezier(0.32, 0.72, 0, 1); /* красивая плавная анимация */
+      }
+
+      .main-content.loaded {
+        opacity: 1;
+        transform: translateX(0);
       }
     </style>
 
     <script>
       window.addEventListener("load", () => {
         const preloader = document.getElementById("preloader");
+        const mainContent = document.querySelector(".main-content");
 
+        // 1. Скрываем прелоадер
         setTimeout(() => {
-          preloader.classList.add("hide");
+          preloader.style.opacity = "0";
 
+          // 2. После исчезновения прелоадера — показываем контент с анимацией
           setTimeout(() => {
-            preloader.remove();
-          }, 900);
-        }, 400);
+            preloader.remove(); // удаляем прелоадер полностью
+
+            if (mainContent) {
+              mainContent.classList.add("loaded"); // запускаем приезд страницы справа
+            }
+          }, 550);
+        }, 600);
       });
     </script>
   </body>
